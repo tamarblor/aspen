@@ -1,0 +1,1510 @@
+/* --- טעינת הפונט המקומי --- */
+@font-face {
+    font-family: 'Bodoni Moda', 'Bodoni', serif;
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* --- איפוס כללי --- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* הקטנת גודל פונט בסיסי ל-14px */
+html, body { height: 100%; width: 100%; overflow: hidden; font-size: 16px; }
+
+body {
+    font-family: 'Bodoni Moda', 'Bodoni', serif; 
+    background-color: #fff;
+    color: #111;
+    display: flex;
+}
+
+/* --- מחלקה להסתרת דפים --- */
+.hidden { display: none !important; }
+
+/* --- מעטפת ראשית --- */
+.main-wrapper {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    /* שינוי לעובי דק */
+    border-top: 1px solid #000; 
+}
+
+/* --- תפריט צד שמאל --- */
+.side-menu {
+    width: 60px;
+    border-right: 1px solid #000;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    background: #fff;
+    z-index: 20;
+    height: 100%;
+}
+
+.menu-header {
+    height: auto;          /* ביטול גובה קבוע */
+    min-height: auto;
+    padding: 12px 0;       /* אותו ריווח בדיוק כמו בסרגל האמצעי */
+    border-bottom: 1px solid #000;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    position: relative;
+    flex-shrink: 0;
+    
+    /* הגדרות פונט */
+    font-family: 'Courier Prime', monospace;
+}
+
+/* הקטנת הטקסט של המילה Aspen */
+.menu-header .title-main {
+    font-size: 0.7rem;    /* גודל תואם לאמצע */
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+/* ביטול ההדגשה של הכותרת כדי שתיראה כמו טקסט מחשב */
+.menu-header .title-main { font-size: 0.7rem; font-weight: 400; }
+
+.menu-scroll-container { overflow-y: auto; flex-grow: 1; display: flex; flex-direction: column; }
+.menu-scroll-container::-webkit-scrollbar { width: 0; }
+
+.menu-item {
+    min-height: 100px;
+    flex-basis: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: linear-gradient(to right, #333 50%, rgba(255, 255, 255, 0) 0%);
+    background-position: bottom;
+    background-size: 16px 1px; 
+    background-repeat: repeat-x;
+    font-family: 'Courier Prime', monospace; 
+    font-size: 0.7rem;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.menu-item.active {
+    background-color: #000;
+    color: #fff;
+    background-image: none;
+    border-bottom: 1px solid #000;
+}
+
+/* פלוסים (+) לתפריט */
+.menu-item::after, .menu-header::after {
+    content: '+'; position: absolute; bottom: -11px; right: -6px;
+    background: #fff; color: #333; font-family: 'Bodoni Moda', 'Bodoni', serif;   font-size: 22px; line-height: 1; z-index: 30;
+}
+.menu-item.active::after { background: #000; color: #fff; }
+
+/* --- אזור תוכן מרכזי --- */
+.center-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-width: 0;
+    /* השורה הזו מאפשרת גלילה לכל דף שאין לו גלילה פנימית משלו */
+    overflow-y: auto; 
+    position: relative; /* חשוב כדי שהתפריט הדביק יעבוד */
+}
+
+header {
+    display: flex; justify-content: space-between; align-items: center; padding: 0 30px;
+    /* שינוי לעובי דק */
+    height: 90px; border-bottom: 1px solid #000; flex-shrink: 0; background: #fff; z-index: 10; position: relative;
+}
+
+/* פלוסים (+) להדר */
+header::after { content: '+'; position: absolute; bottom: -11px; right: -6px; background: #fff; color: #000; font-family: 'Bodoni Moda', 'Bodoni', serif;  font-size: 22px; z-index: 30; line-height: 1; }
+header::before { content: '+'; position: absolute; bottom: -11px; left: -6px; background: #fff; color: #000; font-family: 'Bodoni Moda', 'Bodoni', serif;  font-size: 22px; z-index: 30; line-height: 1; }
+
+.header-title-left { font-family: 'Bodoni Moda', 'Bodoni', serif; font-size: clamp(1.2rem, 2vw, 1.8rem); font-weight: 700; line-height: 1.2; }
+.header-title-left span { font-family: 'Bodoni Moda', 'Bodoni', serif; font-weight: 400; display: block; font-size: 0.6em; }
+.header-title-right { font-family: 'Bodoni Moda', 'Bodoni', serif; text-align: right; font-size: clamp(1rem, 1.5vw, 1.4rem); font-weight: 400; }
+
+/* --- עיצוב עמוד 02 (הגריד הרגיל) --- */
+.columns-scroll-area { flex-grow: 1; overflow-y: auto; width: 100%; height: 100%; position: relative; }
+.columns-scroll-area::-webkit-scrollbar { width: 0; }
+
+.grid-container { display: grid; grid-template-columns: 1.2fr 0.9fr 1.5fr 1fr; width: 100%; min-height: 100%; }
+.column { display: flex; flex-direction: column; border-right: 1px solid #000; position: relative; background: #fff; }
+.column:last-child { border-right: none; }
+
+.item {
+    position: relative; padding: 20px;
+    background-image: linear-gradient(to right, #777 50%, rgba(255, 255, 255, 0) 0%);
+    background-position: bottom; background-size: 16px 1px; background-repeat: repeat-x;
+    font-size: 0.85rem; line-height: 1.6; display: flex; flex-direction: column;
+}
+
+.item::after, .item::before {
+    content: '+'; position: absolute; background: #fff; color: #000; font-family: 'Bodoni Moda', 'Bodoni', serif;  font-size: 20px; line-height: 1; z-index: 30; bottom: -10px;
+}
+.item::after { right: -6px; } .item::before { left: -6px; }
+
+.item img { width: 100%; height: auto; display: block; margin-top: 20px; filter: grayscale(10%); }
+.text-justified { text-align: justify; }
+.number-large { font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; display: block; font-family: 'Bodoni Moda', serif; }
+
+.empty-tiny { min-height: 80px; }
+.empty-small { min-height: 150px; }
+.empty-medium { min-height: 250px; }
+.empty-large { min-height: 400px; }
+.item.fill-remaining { flex-grow: 1; background-image: none; min-height: 50px; }
+
+/* --- עיצוב עמוד 07 (היומן) --- */
+.diary-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: 45px repeat(5, 1fr);
+    
+    width: 100%;
+    /* שינוי מ-height ל-min-height כדי שהיומן יוכל לגדול אם צריך */
+    min-height: 100%; 
+    
+    /* ביטול החסימה של הגלילה */
+    overflow-y: visible;
+}
+.diary-cell {
+    border-right: 1px solid #000;
+    border-bottom: 1px dashed #000;
+    padding: 15px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    font-size: 0.8rem;
+}
+.diary-cell:nth-child(7n) { border-right: none; }
+
+.diary-cell::after {
+    content: '+'; position: absolute; bottom: -11px; right: -6px; background: #fff; color: #000; font-family: 'Bodoni Moda', 'Bodoni', serif;  font-size: 20px; line-height: 1; z-index: 5;
+}
+
+.diary-header {
+    font-family: 'Bodoni Moda', 'Bodoni', serif; 
+    font-weight: bold;
+    /* שינוי לעובי דק */
+    border-bottom: 1px solid #000;
+    background: #fff;
+    position: sticky; top: 0; z-index: 10;
+    align-items: flex-start; justify-content: flex-end;
+    padding-bottom: 10px; height: 90px;
+}
+
+/* --- תיקון לכתב היד שלא ייעלם --- */
+.handwriting {
+    font-family: 'Reenie Beanie', cursive;
+    font-size: 1.8rem; 
+    line-height: 1.0;
+    margin-top: 5px;
+    transform: rotate(-2deg); 
+    word-wrap: break-word; 
+}
+
+.handwriting-bold {
+    font-weight: bold;
+    font-size: 1.3rem; 
+}
+.right-sidebar {
+    width: 60px;
+    /* גובה מלא */
+    height: 100%;
+    /* הקו האנכי שמפריד את הסרגל */
+    border-left: 1px solid #000; 
+    background: #fff;
+    flex-shrink: 0;
+    /* מוודא שהסרגל והפלוסים שלו יהיו מעל הכל */
+    z-index: 100; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* קריטי: מאפשר למקם את הפלוס ביחס לסרגל */
+    position: relative; 
+}
+.index-header {
+    height: auto;          /* ביטול גובה קבוע */
+    flex-shrink: 0;
+    padding: 12px 0;       /* אותו ריווח בדיוק כמו בסרגל האמצעי */
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    
+    /* עיצוב הקו והרקע */
+    border-bottom: 1px solid #000;
+    background-image: none; /* ביטול הקווים המקווקווים ברקע אם היו */
+    
+    /* הגדרות פונט */
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.7rem;     /* גודל תואם לאמצע */
+    text-transform: uppercase;
+}
+.index-header::before, .index-header::after { content: '+'; position: absolute; bottom: -11px; background: #fff; font-family: 'Bodoni Moda', 'Bodoni', serif; font-size: 22px; z-index: 30; }
+.index-header::before { left: -6px; } .index-header::after { right: -6px; }
+
+.bottom-reference {
+    padding-bottom: 30px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; flex-grow: 1;
+    writing-mode: vertical-rl; text-orientation: mixed;
+    font-family: 'Bodoni Moda', 'Bodoni', serif; font-size: 0.75rem; color: #333; letter-spacing: 1px;
+}
+.bottom-reference span { margin-bottom: 8px; }
+
+.arrow {
+    width: 20px; 
+    display: inline-block;
+    margin-left: 40px;
+}
+
+
+/* --- רספונסיביות --- */
+
+@media (max-width: 1024px) {
+    .right-sidebar { display: none; }
+    header::after { display: none; }
+    
+    .grid-container { grid-template-columns: repeat(2, 1fr); }
+    .column:last-child { border-right: none; }
+
+    .diary-grid { grid-template-columns: repeat(2, 1fr); }
+    
+    .diary-cell:nth-child(7n) { border-right: 1px solid #000; }
+    .diary-cell:nth-child(2n) { border-right: none; }
+}
+
+@media (max-width: 768px) {
+    .side-menu { width: 60px; }
+    header { height: auto; padding: 15px; flex-direction: column; align-items: flex-start; gap: 5px; }
+    .menu-header { height: auto; padding: 15px 0; }
+    header::before { display: none; }
+    
+    .grid-container { grid-template-columns: 1fr; }
+    .column { border-right: none; border-bottom: 1px solid #000; min-height: auto; }
+    .item.fill-remaining { display: none; }
+    
+    .diary-cell { border-right: none !important; }
+}
+
+.column:last-child .item::after { display: none !important; }
+header::after { display: none !important; }
+.index-header::after { display: none !important; }
+.diary-cell:nth-child(7n)::after { display: none !important; }
+
+
+/* --- עיצוב עמוד הבית (V3) --- */
+
+/* --- עיצוב החצים החדשים --- */
+
+/* הגדרה כללית לחץ הגדול */
+.v3-arrow-icon {
+    filter: invert(1);    /* הופך את הצבע השחור של ה-SVG ללבן */
+    width: 60px;  /* גודל החץ - אפשר לשנות לפי הטעם */
+    height: auto;
+    display: block;
+    margin-bottom: 15px; /* מרווח קטן מהטקסט שמתחתיו */
+
+}
+
+/* הגדרה לחץ בתוך הקופסה השחורה */
+.v3-arrow-icon.inverted {
+    filter: invert(1);    /* הופך את הצבע השחור של ה-SVG ללבן */
+    width: 60px;          /* אולי נרצה אותו קצת יותר קטן שם */
+    margin-bottom: 0;     /* ביטול המרווח התחתון */
+    align-self: flex-end; /* מצמיד אותו לפינה הימנית התחתונה כמו שהיה */
+}
+
+.home-v3-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #fff;
+    overflow-y: auto; 
+}
+
+.home-v3-specs {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 20px;
+    /* שינוי לעובי דק */
+    border-bottom: 1px solid #000; 
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    
+    /* הפיכת הסרגל לדביק (Sticky) שיופיע תמיד */
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 50;
+}
+
+.home-v3-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr; 
+    grid-auto-rows: minmax(200px, auto); 
+    width: 100%;
+}
+
+.home-v3-cell {
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.home-v3-cell:nth-child(3n) { border-right: none; }
+
+.v3-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.65rem;
+    color: #666;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.v3-text-block {
+    font-family: 'Bodoni Moda', serif;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* --- תאים ספציפיים --- */
+
+.cell-title {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3; 
+    justify-content: center;
+    min-height: 450px; 
+}
+.v3-big-text {
+    /* שינוי גודל דרמטי: מ-8rem ל-16rem */
+    font-size: clamp(6rem, 20vw, 16rem); 
+    
+    font-weight: 700;
+    
+    /* הקטנת גובה השורה כדי שהכותרת לא תתפוס סתם שטח לבן */
+    line-height: 0.75; 
+    
+    margin: 0;
+    
+    /* צמצום רווחים בין האותיות למראה מהודק */
+    letter-spacing: -6px; 
+}
+.v3-sub-text { font-family: 'Courier Prime', monospace; font-size: 1rem; margin-top: 15px; font-weight: 400; }
+
+.cell-info {
+    grid-column: 2 / 4; 
+    grid-row: 1 / 2;
+    background: #fff;
+    min-height: 250px;
+}
+
+.cell-image {
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+    padding: 0;
+    min-height: 250px;
+}
+.cell-image img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); }
+.cell-image .v3-label { position: absolute; top: 15px; left: 15px; background: #fff; padding: 2px 5px; z-index: 2; }
+
+.cell-action {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    background-color: #000;
+    color: #fff;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    min-height: 250px;
+}
+.cell-action:hover { background-color: #222; }
+.v3-arrow { font-size: 3.5rem; line-height: 1; }
+.v3-btn-text { font-family: 'Courier Prime', monospace; font-size: 0.8rem; margin-top: 10px; }
+
+
+/* --- המשך גלילה --- */
+
+.cell-history {
+    grid-column: 1 / 3; 
+    grid-row: 3 / 4;
+    min-height: 300px;
+}
+
+.cell-void {
+    grid-column: 3 / 4;
+    grid-row: 3 / 4;
+    background-image: radial-gradient(#ddd 1px, transparent 1px);
+    background-size: 10px 10px;
+    opacity: 0.5;
+}
+
+.cell-black-link {
+    grid-column: 1 / 2;
+    grid-row: 4 / 5;
+    background-color: #000;
+    color: #fff;
+    cursor: pointer;
+    justify-content: space-between;
+    min-height: 250px;
+}
+.cell-black-link:hover { background-color: #222; }
+
+.cell-image-large {
+    grid-column: 2 / 4; 
+    grid-row: 4 / 5;
+    padding: 0;
+    min-height: 350px;
+}
+.cell-image-large img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); }
+
+.cell-ads-text {
+    grid-column: 2 / 4;
+    grid-row: 5 / 6;
+    min-height: 250px;
+}
+
+.cell-void-left {
+    grid-column: 1 / 2;
+    grid-row: 5 / 6;
+    border-bottom: none; 
+}
+
+
+@media (max-width: 768px) {
+    .home-v3-grid { display: flex; flex-direction: column; }
+    .home-v3-cell { border-right: none; min-height: auto; padding: 20px; }
+    .cell-title { min-height: auto; }
+    .home-v3-specs { position: relative; } /* במובייל עדיף לפעמים שזה יגלל, אפשר למחוק אם רוצים גם פה דביק */
+}
+
+/* --- תחתית --- */
+
+.cell-films-text {
+    grid-column: 1 / 3;
+    grid-row: 6 / 7; 
+    min-height: 300px;
+}
+
+.cell-film-image {
+    grid-column: 3 / 4;
+    grid-row: 6 / 7;
+    padding: 0;
+}
+.cell-film-image img {
+    width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%);
+}
+
+.cell-void-3 {
+    grid-column: 1 / 2;
+    grid-row: 7 / 8; 
+    background-image: radial-gradient(#bbb 1px, transparent 1px);
+    background-size: 15px 15px;
+    opacity: 0.4;
+    border-bottom: none; 
+}
+
+.cell-final-footer {
+    grid-column: 2 / 4; 
+    grid-row: 7 / 8;
+    background-color: #000;
+    color: #fff;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-bottom: none;
+}
+.cell-final-footer .v3-label { color: #888; }
+/* --- style.css - תיקון הפס הכחול העליון --- */
+
+.halftone-wrap {
+    position: relative;
+    display: inline-block; /* או block, תלוי בעימוד */
+    width: 100%;
+    overflow: hidden;
+    
+    /* צבע הרקע (הכחול) שייחשף רק בהובר */
+    background-color: #0033cc; 
+    
+    /* העברנו את המרווח מהתמונה למעטפת כדי שהכחול לא יברח החוצה */
+    margin-top: 20px; 
+    
+    /* ביטול רווחים מיותרים */
+    line-height: 0;
+    font-size: 0;
+}
+
+/* שכבת הפסים (נשארת קבועה) */
+.halftone-wrap::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+
+    /* מצב רגיל: פסים שחורים */
+    background: repeating-linear-gradient(
+        90deg,
+        #000 0px,
+        #000 1px,
+        transparent 1px,
+        transparent 3px
+    );
+    
+    mix-blend-mode: multiply;
+    opacity: 0.8;
+    pointer-events: none;
+}
+
+/* התמונה עצמה */
+.halftone-wrap img {
+    display: block;
+    width: 100%;
+    height: auto;
+    position: relative;
+    z-index: 1;
+    
+    /* --- התיקון החשוב כאן --- */
+    margin: 0; /* מבטל את המרווח של התמונה כדי שהיא תכסה את כל הכחול */
+
+    /* מצב רגיל: שחור לבן קונטרסטי */
+    filter: grayscale(100%) contrast(300%);
+    
+    /* ברירת מחדל: התמונה מסתירה את הרקע הכחול */
+    mix-blend-mode: normal; 
+    
+    transition: all 0.2s ease;
+}
+
+/* --- מצב הובר (HOVER) --- */
+
+/* 1. התמונה חושפת את הכחול */
+.halftone-wrap:hover img {
+    mix-blend-mode: screen; 
+    filter: grayscale(100%) contrast(300%);
+}
+
+/* 2. הפסים הופכים לכחול */
+.halftone-wrap:hover::after {
+    background: repeating-linear-gradient(
+        90deg,
+        #0033cc 0px,
+        #0033cc 1px,
+        transparent 1px,
+        transparent 3px
+    );
+    mix-blend-mode: normal;
+}
+
+/* --- מצב פעיל (Active) לכותרת ASPEN --- */
+
+.menu-header {
+    cursor: pointer; /* כדי שיראו שזה לחיץ */
+    transition: background 0.2s, color 0.2s; /* מעבר צבע חלק */
+}
+
+/* כשהכותרת פעילה: רקע שחור */
+.menu-header.active {
+    background-color: #000;
+    color: #fff;
+}
+
+/* שהטקסט בתוך הכותרת יהפוך ללבן */
+.menu-header.active .title-main {
+    color: #fff;
+}
+
+/* שהפלוס הקטן (+) יהפוך ללבן ויתאים לרקע השחור */
+.menu-header.active::after {
+    background: #000;
+    color: #fff;
+}
+
+/* --- עיצוב עמוד האינדקס המינימליסטי --- */
+
+.index-scroll-area {
+    flex-grow: 1;
+    overflow-y: auto;
+    width: 100%;
+    /* רקע לבן נקי */
+    background: #fff;
+}
+
+.index-container {
+    display: flex;
+    flex-direction: column;
+    /* אין גבול עליון כי יש את הסרגל הדק */
+}
+
+.index-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    /* ריווח וגבול דק בין הפריטים */
+    padding: 25px 30px;
+    border-bottom: 1px solid #000;
+    
+    text-decoration: none;
+    color: #111;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* ביטול הגבול האחרון כדי שיהיה נקי */
+.index-row:last-child {
+    border-bottom: none;
+}
+
+/* --- טיפוגרפיה --- */
+
+.idx-meta {
+    display: flex;
+    flex-direction: column;
+    width: 200px; /* רוחב קבוע למספר כדי שהכל יתיישר */
+}
+
+.idx-num {
+    font-family: 'Courier Prime', monospace;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.idx-year {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.7rem;
+    color: #666; /* אפור עדין */
+    margin-top: 5px;
+    transition: color 0.2s;
+}
+
+.idx-title {
+    flex-grow: 1;
+    font-family: 'Bodoni Moda', serif;
+    font-size: 1.6rem; /* כותרת גדולה ואלגנטית */
+    padding-left: 20px;
+}
+
+.idx-arrow {
+    font-size: 1.5rem;
+    font-family: sans-serif;
+    font-weight: 300;
+    opacity: 0; /* החץ מוסתר ברגיל */
+    transform: translateX(-10px);
+    transition: all 0.2s ease;
+}
+
+/* --- מצב הובר (HOVER) - הסגנון שלך --- */
+
+.index-row:hover {
+    background-color: #0033cc; /* הכחול רויאל שבחרת */
+    color: #fff;
+    padding-left: 40px; /* תזוזה קטנה לימין לאפקט */
+}
+
+.index-row:hover .idx-year {
+    color: rgba(255,255,255, 0.7); /* השנה הופכת ללבן חלש */
+}
+
+.index-row:hover .idx-arrow {
+    opacity: 1; /* החץ מופיע */
+    transform: translateX(0); /* החץ זז למקום */
+}
+  /* --- Manifest Grid Design (Issue 7 TOC) --- */
+
+.manifest-header {
+    border-bottom: 1px solid #000;
+    padding-bottom: 20px;
+    margin-bottom: 0; /* צמוד לגריד שמתחתיו */
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.manifest-meta {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.8rem;
+    gap: 5px;
+}
+
+.manifest-desc {
+    font-family: 'Bodoni Moda', serif;
+    font-size: 1.2rem;
+    text-align: right;
+    max-width: 400px;
+}
+
+/* --- הגריד הראשי --- */
+.manifest-grid {
+    display: grid;
+    /* 3 עמודות שוות במסכים רגילים */
+    grid-template-columns: repeat(3, 1fr); 
+    border-left: 1px solid #000; /* סוגר את הגריד משמאל */
+    width: 100%;
+
+    /* תיקון גלילה חשוב: */
+    height: auto; /* מוודא שהגובה גדל לפי התוכן */
+    padding-bottom: 50px; /* רווח בסוף כדי שהתוכן לא ייחתך */
+
+}
+
+.manifest-cell {
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+    min-height: 220px; /* גובה אחיד לקוביות */
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background: #fff;
+    transition: all 0.2s ease;
+}
+
+/* החלק העליון של הקובייה (מספר וסוג) */
+.cell-top {
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    /* קו מקווקו שמפריד בין הכותרת לתוכן */
+    border-bottom: 1px dashed #000; 
+    padding-bottom: 10px;
+}
+
+.cell-num {
+    font-family: 'Bodoni Moda', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.cell-type {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.7rem;
+    background: #000;
+    color: #fff;
+    padding: 2px 6px;
+    text-transform: uppercase;
+}
+
+/* תוכן הקובייה */
+.cell-content {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+    flex-grow: 1;
+}
+
+.cell-title {
+    font-family: 'Bodoni Moda', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    margin: 0 0 10px 0;
+    line-height: 1.1;
+}
+
+.cell-author {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.8rem;
+    color: #666;
+    text-transform: uppercase;
+
+    /* הפקודה הזו דוחפת את האלמנט (וכל מה שאחריו) לתחתית הקובייה */
+    margin-top: auto;
+}
+
+/* --- עיצוב האייטם האינטראקטיבי (ג'ון לנון) --- */
+
+.interactive-item {
+    cursor: pointer;
+    background-color: #f4f4f4; /* צבע רקע טיפה שונה שיבלוט */
+}
+
+/* אפקט הובר משולב */
+.interactive-item:hover {
+    background-color: #0033cc; /* הכחול של האתר */
+}
+
+.interactive-item:hover * {
+    color: #fff !important; /* הכל נהיה לבן */
+    border-color: #fff !important; /* קווים לבנים */
+}
+
+.interactive-item:hover .cell-type {
+    background: #fff;
+    color: #0033cc !important;
+}
+
+.click-instruction {
+    display: none; /* מוסתר כברירת מחדל */
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.75rem;
+    margin-top: 10px;
+    border-top: 1px solid #fff;
+    padding-top: 5px;
+}
+
+.interactive-item:hover .click-instruction {
+    display: block; /* מופיע בהובר */
+}
+
+/* --- רספונסיביות לגריד הזה --- */
+@media (max-width: 1024px) {
+    .manifest-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 עמודות בטאבלט */
+    }
+}
+
+@media (max-width: 600px) {
+    .manifest-grid {
+        grid-template-columns: 1fr; /* עמודה אחת במובייל */
+    }
+    .manifest-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+    .manifest-desc {
+        text-align: left;
+    }
+}
+
+/* --- עדכון הסרגל הימני --- */
+.right-sidebar {
+    /* מוודא שהסרגל מסודר נכון */
+    justify-content: space-between; 
+}
+
+.sidebar-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px; /* רווח בין האינדקס להרשמה */
+}
+
+.subscribe-link {
+    writing-mode: vertical-rl; /* טקסט אנכי */
+    text-orientation: mixed;
+    transform: rotate(180deg); /* כיוון קריאה נכון */
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    letter-spacing: 2px;
+    padding: 10px 0;
+    transition: color 0.2s;
+}
+
+.subscribe-link:hover, .subscribe-link.active {
+    font-weight: bold;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+}
+
+
+/* --- עיצוב עמוד טופס ההזמנה --- */
+
+.form-wrapper {
+    max-width: 800px;
+    margin: 40px auto;
+    padding-bottom: 50px;
+}
+
+/* כותרת ומחירים */
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+}
+
+.form-title {
+    font-family: 'Bodoni Moda', serif;
+    font-size: 5rem;
+    line-height: 0.8;
+    margin: 0;
+    letter-spacing: -2px;
+}
+
+.form-rates {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.85rem;
+    text-align: right;
+}
+
+.rate-row {
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
+    margin-bottom: 5px;
+}
+
+.rate-note {
+    font-size: 0.7rem;
+    margin-top: 10px;
+    color: #555;
+}
+
+/* שדות הקלט (הקווים) */
+.asp-form {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.asp-input {
+    border: none;
+    border-bottom: 1px solid #000; /* רק קו תחתון */
+    background: transparent;
+    font-family: 'Courier Prime', monospace;
+    font-size: 1.2rem;
+    padding: 5px 0;
+    outline: none;
+    border-radius: 0;
+}
+
+.asp-input:focus {
+    border-bottom: 2px solid #000;
+}
+
+.input-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.75rem;
+    margin-top: 5px;
+}
+
+/* שורות של שדות (עיר, מדינה, מיקוד) */
+.form-row-3 {
+    display: flex;
+    gap: 20px;
+    align-items: flex-end;
+}
+
+.grow { flex-grow: 1; }
+
+.form-selection, .form-options {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.9rem;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+/* קופסת המתנה */
+.gift-box {
+    border: 1px solid #000;
+    padding: 25px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.gift-title {
+    font-family: 'Bodoni Moda', serif;
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.gift-checks {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.8rem;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/* תחתית */
+.form-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 20px;
+}
+
+.footer-note {
+    font-family: 'Bodoni Moda', serif;
+    font-style: italic;
+}
+
+.mail-to {
+    text-align: center;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.9rem;
+    margin-top: 40px;
+    text-transform: uppercase;
+}
+
+/* התאמה למובייל */
+@media (max-width: 600px) {
+    .form-header { flex-direction: column; gap: 20px; }
+    .form-rates { text-align: left; }
+    .rate-row { width: 100%; }
+    .form-row-3 { flex-direction: column; gap: 15px; }
+    .form-footer { flex-direction: column; align-items: flex-start; gap: 20px; }
+}
+
+/* --- עיצוב חלונית קופצת (Modal) - גרסה מתוקנת --- */
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+/* התוכן של החלונית - הקטנו רוחב ומנענו גלילה */
+.modal-content {
+    background: #fff;
+    border: 1px solid #000;
+    
+    /* שינוי רוחב: */
+    width: 90%; 
+    max-width: 550px; /* הקטנו מ-600 ל-550 כדי שהשורות יהיו קצרות יותר */
+    
+    max-height: 90vh; 
+    overflow-y: auto; /* גלילה למטה */
+    overflow-x: hidden; /* ביטול גלילה הצידה! */
+    
+    padding: 40px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* כפתור ה-X לסגירה - מוקטן */
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-family: 'Bodoni Moda', serif;
+    
+    /* השינוי כאן: */
+    font-size: 2rem; /* הקטנו מ-3rem ל-2rem */
+    
+    cursor: pointer;
+    line-height: 1;
+    transition: transform 0.3s ease; /* אנימציה חלקה */
+    z-index: 10;
+}
+
+/* האנימציה נשארת */
+.close-modal:hover {
+    transform: rotate(90deg); 
+}
+
+/* התאמת הטופס לתוך החלונית כדי שלא יגלוש לצדדים */
+.modal .form-wrapper {
+    margin: 0;
+    padding: 10px 0;
+    width: 100%; /* מוודא שהטופס לא רחב יותר מהחלונית */
+    box-sizing: border-box;
+}
+
+/* מוודא שכל השורות בטופס לא חורגות */
+.modal .asp-input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* תיקון לשדות הקטנים (עיר, מדינה) שייכנסו יפה */
+.modal .form-row-3 {
+    flex-wrap: wrap; /* מאפשר שבירת שורה אם אין מקום */
+}
+
+/* --- עיצוב שורת המתנות --- */
+.gift-card-row {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* רווח בין האפשרויות */
+    margin-top: 20px;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.85rem;
+    flex-wrap: wrap; /* שבירת שורה אם אין מקום */
+}
+
+.option-title {
+    font-family: 'Bodoni Moda', serif; /* פונט שונה לכותרת */
+    font-weight: bold;
+}
+
+.check-label {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* רווח קטן בין המילה לריבוע */
+    cursor: pointer;
+}
+
+/* הדגשת הריבועים שיהיו דומים למקור */
+.check-label input[type="checkbox"] {
+    appearance: none; /* ביטול עיצוב ברירת מחדל */
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    border: 1px solid #000;
+    cursor: pointer;
+    position: relative;
+}
+
+.check-label input[type="checkbox"]:checked {
+    background-color: #000; /* מילוי שחור כשמסומן */
+}
+
+
+/* --- סידור הסרגל הימני החדש --- */
+
+/* מוודא שהסרגל מחלק את הגובה: אחד למעלה, אחד למטה */
+.right-sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* דוחף לקצוות */
+    height: 100%;
+    align-items: center;
+    padding-bottom: 0;
+}
+
+/* הקבוצה התחתונה (הרשמה + חץ) */
+.sidebar-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px; /* רווח בין כפתור ההרשמה לחץ שלמטה */
+    width: 100%;
+}
+
+/* וידוא שהכפתור יושב טוב */
+.subscribe-link {
+    margin-bottom: 20px; /* רווח נוסף מתחת לכפתור אם צריך */
+}
+
+/* תיקון קטן ל-bottom-reference כדי שלא יזוז */
+.bottom-reference {
+    padding-bottom: 30px; /* רווח מהתחתית של המסך */
+    flex-grow: 0; /* שלא ינסה לתפוס גובה מיותר */
+}
+
+/* --- תיקון חיבור הגריד בסרגל ימין --- */
+
+/* 1. הגדרת הסרגל הימני - מוודאים שיש קו שמאלי ברור */
+.right-sidebar {
+    width: 60px;
+    height: 100%;
+    border-left: 1px solid #000; /* הקו האנכי המפריד */
+    background: #fff;
+    flex-shrink: 0;
+    z-index: 60; /* גבוה כדי שיעלה על גלילה אם יש */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+}
+
+/* 2. הגדרת כפתור האינדקס העליון */
+.index-header {
+    height: auto;
+    flex-shrink: 0;
+    
+    /* חשוב: הריווח הזה חייב להיות זהה לריווח של home-v3-specs (שהוא 12px) */
+    padding: 12px 0;       
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative; /* כדי שהפלוס יתמקם ביחס אליו */
+    
+    /* הקו האופקי */
+    border-bottom: 1px solid #000; 
+    
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+/* 3. יצירת הפלוס (+) המדויק בצד שמאל */
+/* האלמנט הזה מחבר ויזואלית בין הקו האופקי לאנכי */
+.index-header::before {
+    content: '+';
+    position: absolute;
+    
+    /* מיקום מדויק כדי לשבת על ההצטלבות */
+    bottom: -11px; /* חצי מגובה הפלוס כדי למרכז על הקו האופקי */
+    left: -6px;    /* חצי מרוחב הפלוס כדי למרכז על הקו האנכי של הסרגל */
+    
+    background: #fff; /* מסתיר את הקווים שמתחתיו */
+    color: #000;
+    font-family: 'Bodoni Moda', serif;
+    font-size: 22px;
+    line-height: 1;
+    z-index: 100; /* חייב להיות מעל הכל */
+}
+
+/* אופציונלי: פלוס גם בצד ימין (אם רוצים) */
+.index-header::after {
+    content: '+';
+    position: absolute;
+    bottom: -11px;
+    right: -6px;
+    background: #fff;
+    color: #000;
+    font-family: 'Bodoni Moda', serif;
+    font-size: 22px;
+    line-height: 1;
+    z-index: 100;
+}
+
+/* --- תיקון יישור קו תחתון בעמוד הבית --- */
+
+.home-v3-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    width: 100%;
+    /* זה מיישר את כל התאים בשורה לאותו גובה בדיוק */
+    align-items: stretch; 
+}
+
+/* הגדרה כללית לתאים - מוודאת שהם נמתחים */
+.home-v3-cell {
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: auto; /* מאפשר מתיחה */
+    min-height: 0; /* ביטול גבהים קבועים שעלולים לשבור יישור */
+}
+
+/* תא הכותרת (ASPEN) - נפרס על 2 שורות */
+.cell-title {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    justify-content: center;
+    /* חשוב: מבטל כל הגבלה כדי שיתיישר עם השכן מימין */
+    height: 100%; 
+}
+
+/* הריבוע השחור */
+.cell-action {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    background-color: #000;
+    color: #fff;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    /* ביטול גובה מינימלי קשיח כדי שיתאים בדיוק לתמונה */
+    min-height: auto; 
+}
+
+/* תא התמונה - התיקון הקריטי */
+.cell-image {
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+    padding: 0; /* ללא ריפוד */
+    
+    /* ביטול רווחים נסתרים מתחת לתמונה */
+    display: flex; 
+    flex-direction: column;
+}
+
+/* תיקון לאפקט ה-Halftone כדי שלא יוסיף רווחים */
+.halftone-wrap {
+    display: block;
+    width: 100%;
+    height: 100%; /* מתיחה מלאה */
+    margin: 0; /* ביטול מרווחים חיצוניים */
+    line-height: 0; /* ביטול רווח שורה */
+}
+
+.halftone-wrap img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* מוודא שהתמונה ממלאת את התא */
+    margin: 0;
+}
+
+/* --- עיצוב פליפ-בוק: סרט צילום אופקי אמיתי --- */
+
+.flipbook-film-container {
+    padding-top: 30px;
+    padding-bottom: 60px;
+    background-color: #fff;
+}
+
+.movie-section {
+    margin-bottom: 40px;
+}
+
+.film-title {
+    font-family: 'Courier Prime', monospace;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    padding-left: 20px;
+}
+
+/* --- עיצוב סטריפ הסרט והחורים (The Magic) --- */
+
+/* העוטף הראשי - רקע שחור */
+.film-strip-wrapper {
+    background-color: #111; /* שחור כמעט מלא */
+    padding: 15px 0; /* רווח עליון ותחתון לחורים */
+    position: relative;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+}
+
+/* יצירת החורים (Sprockets) למעלה ולמטה באמצעות אלמנטים מדומים */
+.film-strip-wrapper::before,
+.film-strip-wrapper::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 12px; /* גובה החורים */
+    
+    /* יצירת דפוס הריבועים הלבנים החוזר */
+    background-image: repeating-linear-gradient(
+        to right,
+        #ffffff 0px,   /* התחלת ריבוע לבן */
+        #ffffff 10px,  /* סוף ריבוע לבן (רוחב 10px) */
+        transparent 10px, /* התחלת רווח שקוף */
+        transparent 20px  /* סוף רווח שקוף (רוחב 10px) */
+    );
+    opacity: 0.8; /* שקיפות קלה שיראה ריאליסטי */
+}
+
+/* מיקום החורים העליונים */
+.film-strip-wrapper::before {
+    top: 2px;
+}
+
+/* מיקום החורים התחתונים */
+.film-strip-wrapper::after {
+    bottom: 2px;
+}
+
+/* --- אזור הגלילה והתמונות --- */
+
+.film-scroll-track {
+    overflow-x: auto; /* גלילה אופקית */
+    overflow-y: hidden;
+    white-space: nowrap; /* מכריח תמונות להיות בשורה אחת */
+    padding: 10px 20px; /* ריפוד פנימי לתמונות */
+    
+    /* גלילה חלקה במובייל */
+    -webkit-overflow-scrolling: touch;
+    
+    /* הסתרת פס גלילה (אופציונלי - למראה נקי יותר) */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE 10+ */
+}
+.film-scroll-track::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+}
+
+
+/* עיצוב התמונות (הפריימים) */
+.film-scroll-track img {
+    height: 180px; /* גובה קבוע לכל הפריימים */
+    width: auto; /* הרוחב יסתדר אוטומטית */
+    display: inline-block;
+    margin-right: 15px; /* רווח בין פריים לפריים */
+    
+    /* מסגרת עדינה מסביב לתמונה עצמה */
+    border: 2px solid #000;
+    background-color: #000;
+}
+
+/* הדגשה לתמונת הכותרת */
+.film-scroll-track img.title-frame {
+    border: 2px solid #fff;
+    margin-right: 30px; /* רווח גדול יותר אחרי הכותרת */
+}
+
+/* כפתור חזרה */
+.back-btn-container {
+    text-align: center;
+    margin-top: 40px;
+}
+.back-btn-container button {
+    background: #000;
+    color: #fff;
+    border: 1px solid #000;
+    padding: 10px 20px;
+    font-family: 'Courier Prime', monospace;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+/* --- עיצוב הגלילה של הפליפ-בוק בתוך הגריד --- */
+
+.flipbook-large-scroll {
+    display: flex;
+    flex-direction: column;
+    /* אין מרווחים בין תמונות כדי ליצור רצף קולנועי */
+    gap: 0; 
+}
+
+.flipbook-large-scroll img {
+    display: block;
+    width: 100%;
+    height: auto;
+    
+    /* קו הפרדה דק בין הפרימים למראה של פילם חתוך, או בלי קו בכלל */
+    border-bottom: 2px solid #000; 
+}
+
+/* ביטול הקו בתמונה האחרונה */
+.flipbook-large-scroll img:last-child {
+    border-bottom: none;
+}
+
+/* --- עיצוב הגלילה של הפליפ-בוק בתוך הגריד --- */
+.flipbook-large-scroll {
+    display: flex;
+    flex-direction: column;
+    gap: 0; 
+}
+
+.flipbook-large-scroll img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-bottom: 2px solid #000; 
+}
+
+.flipbook-large-scroll img:last-child {
+    border-bottom: none;
+}
