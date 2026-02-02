@@ -120,8 +120,8 @@ document.addEventListener("DOMContentLoaded", function() {
     // 1. הפעלת עמוד הבית כברירת מחדל
     showPage('page-home');
 
-    // 2. החלת אפקט Halftone על התמונות
-    const imagesToEffect = document.querySelectorAll('.item img, .cell-image img, .cell-film-image img');
+    // הוספנו את #page-flipbook img לרשימה
+const imagesToEffect = document.querySelectorAll('.item img, .cell-image img, .cell-film-image img, #page-flipbook img');
 
     imagesToEffect.forEach(img => {
         if (!img.parentElement.classList.contains('halftone-wrap')) {
@@ -132,3 +132,57 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+
+
+/* --- נגן אודיו מותאם אישית --- */
+
+function toggleAudio(trackId) {
+    const audioElement = document.getElementById('audio-' + trackId);
+    const buttonElement = document.getElementById('btn-' + trackId);
+    
+    // בדיקה: אם האודיו כבר מנגן, נעצור אותו
+    if (!audioElement.paused) {
+        audioElement.pause();
+        // איפוס הכפתור למצב התחלתי
+        buttonElement.innerHTML = '▶ PLAY ' + trackId.replace('track-', 'TRACK ').toUpperCase();
+        buttonElement.style.backgroundColor = 'transparent';
+        buttonElement.style.color = '#000';
+    } else {
+        // צעד 1: לעצור את כל השירים האחרים לפני שמפעילים חדש
+        stopAllAudio();
+
+        // צעד 2: הפעלת השיר הנוכחי
+        audioElement.play();
+        
+        // צעד 3: שינוי עיצוב הכפתור למצב "פעיל" (שחור)
+        buttonElement.innerHTML = '■ STOP ' + trackId.replace('track-', 'TRACK ').toUpperCase();
+        buttonElement.style.backgroundColor = '#000';
+        buttonElement.style.color = '#fff';
+    }
+}
+
+function stopAllAudio() {
+    // רשימת כל האודיו והכפתורים שיש בדף הזה
+    const tracks = ['track-a', 'track-b'];
+
+    tracks.forEach(id => {
+        const audio = document.getElementById('audio-' + id);
+        const btn = document.getElementById('btn-' + id);
+        
+        if (audio) {
+            audio.pause();
+            audio.currentTime = 0; // מחזיר להתחלה
+        }
+        if (btn) {
+            // החזרת הכפתור למצב רגיל
+            btn.innerHTML = '▶ PLAY ' + id.replace('track-', 'TRACK ').toUpperCase();
+            btn.style.backgroundColor = 'transparent';
+            btn.style.color = '#000';
+        }
+    });
+}
+
+// תוספת קטנה לפונקציית showPage הקיימת שלך:
+// כשעוברים דף, חשוב לעצור את המוזיקה כדי שלא תמשיך לנגן ברקע
+// תוסיפי את השורה הזו בתחילת הפונקציה showPage ב-JS הקיים:
+// stopAllAudio();

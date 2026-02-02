@@ -114,8 +114,12 @@ body {
     min-width: 0;
     /* השורה הזו מאפשרת גלילה לכל דף שאין לו גלילה פנימית משלו */
     overflow-y: auto; 
+    overflow-x: hidden;
     position: relative; /* חשוב כדי שהתפריט הדביק יעבוד */
+ 
 }
+
+
 
 header {
     display: flex; justify-content: space-between; align-items: center; padding: 0 30px;
@@ -268,7 +272,7 @@ header::before { content: '+'; position: absolute; bottom: -11px; left: -6px; ba
 
 /* --- רספונסיביות --- */
 
-@media (max-width: 1024px) {
+@media (max-width: 900px) {
     .right-sidebar { display: none; }
     header::after { display: none; }
     
@@ -511,25 +515,41 @@ header::after { display: none !important; }
 
 .cell-void-3 {
     grid-column: 1 / 2;
-    grid-row: 7 / 8; 
+    grid-row: 8 / 9; 
     background-image: radial-gradient(#bbb 1px, transparent 1px);
     background-size: 15px 15px;
     opacity: 0.4;
     border-bottom: none; 
 }
-
 .cell-final-footer {
     grid-column: 2 / 4; 
-    grid-row: 7 / 8;
+    grid-row: auto;
     background-color: #000;
     color: #fff;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+    
+    /* הגדרת Flex */
+    display: flex;
+    flex-direction: column;
+    
+    /* ממורכז אנכית (מלמעלה למטה) */
+    justify-content: center; 
+    
+    /* מיושר לשמאל (מצד לצד) */
+    align-items: flex-start;   
+    
+    /* הגדרת טקסט רגילה */
+    text-align: left; 
+    
     border-bottom: none;
+    padding: 25px; 
 }
-.cell-final-footer .v3-label { color: #888; }
-/* --- style.css - תיקון הפס הכחול העליון --- */
+
+/* וידוא שגם האלמנטים הפנימיים מיושרים לשמאל */
+.cell-final-footer .v3-label,
+.cell-final-footer .v3-text-block {
+    text-align: left;
+    width: 100%;
+}
 
 .halftone-wrap {
     position: relative;
@@ -538,7 +558,7 @@ header::after { display: none !important; }
     overflow: hidden;
     
     /* צבע הרקע (הכחול) שייחשף רק בהובר */
-    background-color: #0033cc; 
+    background-color: #000000; 
     
     /* העברנו את המרווח מהתמונה למעטפת כדי שהכחול לא יברח החוצה */
     margin-top: 20px; 
@@ -548,21 +568,18 @@ header::after { display: none !important; }
     font-size: 0;
 }
 
-/* שכבת הפסים (נשארת קבועה) */
+/* שכבת הנקודות (Dot Matrix / Halftone) */
 .halftone-wrap::after {
     content: "";
     position: absolute;
     inset: 0;
     z-index: 2;
 
-    /* מצב רגיל: פסים שחורים */
-    background: repeating-linear-gradient(
-        90deg,
-        #000 0px,
-        #000 1px,
-        transparent 1px,
-        transparent 3px
-    );
+    /* יצירת נקודה שחורה אחת */
+    background-image: radial-gradient(#bbb 1px, transparent 1px);
+    
+    /* קביעת הגודל והחזרתיות - נקודה כל 4 פיקסלים */
+    background-size: 4px 4px; 
     
     mix-blend-mode: multiply;
     opacity: 0.8;
@@ -601,8 +618,8 @@ header::after { display: none !important; }
 .halftone-wrap:hover::after {
     background: repeating-linear-gradient(
         90deg,
-        #0033cc 0px,
-        #0033cc 1px,
+        #000000 0px,
+        #000000 1px,
         transparent 1px,
         transparent 3px
     );
@@ -711,7 +728,7 @@ header::after { display: none !important; }
 /* --- מצב הובר (HOVER) - הסגנון שלך --- */
 
 .index-row:hover {
-    background-color: #0033cc; /* הכחול רויאל שבחרת */
+    background-color: #000000; /* הכחול רויאל שבחרת */
     color: #fff;
     padding-left: 40px; /* תזוזה קטנה לימין לאפקט */
 }
@@ -838,7 +855,7 @@ header::after { display: none !important; }
 
 /* אפקט הובר משולב */
 .interactive-item:hover {
-    background-color: #0033cc; /* הכחול של האתר */
+    background-color: #000000; /* הכחול של האתר */
 }
 
 .interactive-item:hover * {
@@ -848,7 +865,7 @@ header::after { display: none !important; }
 
 .interactive-item:hover .cell-type {
     background: #fff;
-    color: #0033cc !important;
+    color:  #000000!important;
 }
 
 .click-instruction {
@@ -1254,11 +1271,11 @@ header::after { display: none !important; }
 /* האלמנט הזה מחבר ויזואלית בין הקו האופקי לאנכי */
 .index-header::before {
     content: '+';
-    position: absolute;
+
     
     /* מיקום מדויק כדי לשבת על ההצטלבות */
     bottom: -11px; /* חצי מגובה הפלוס כדי למרכז על הקו האופקי */
-    left: -6px;    /* חצי מרוחב הפלוס כדי למרכז על הקו האנכי של הסרגל */
+    left: -20px;    /* חצי מרוחב הפלוס כדי למרכז על הקו האנכי של הסרגל */
     
     background: #fff; /* מסתיר את הקווים שמתחתיו */
     color: #000;
@@ -1507,4 +1524,329 @@ header::after { display: none !important; }
 
 .flipbook-large-scroll img:last-child {
     border-bottom: none;
+}
+
+/* רקע נקודות כללי לכל הגריד של תוכן הגיליונות */
+.manifest-grid {
+    background-image: radial-gradient(#ddd 1px, transparent 1px);
+    background-size: 10px 10px;
+    background-attachment: local; /* הנקודות יגללו יחד עם התוכן */
+}
+
+/* מוודא שתאים עם תוכן יהיו עם רקע לבן כדי להסתיר את הנקודות מאחוריהם */
+.manifest-cell {
+    background-color: #fff; 
+}
+
+/* תאים שמוגדרים כ"ריקים" יהיו שקופים כדי שיראו את הנקודות */
+.manifest-cell.empty {
+    background-color: transparent;
+}
+
+
+.center-content {
+    flex-grow: 1;
+    min-width: 0; /* קריטי: מאפשר ל-Flex לשבור את הרוחב של התוכן בפנים */
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* מניעת בריחה של תמונות */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+@media (max-width: 900px) {
+    /* גריד דף הבית הופך לטור אחד */
+    .home-v3-grid {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .home-v3-cell {
+        border-right: none !important;
+        width: 100%;
+        min-height: auto;
+        padding: 20px;
+    }
+
+    /* תיקון הכותרת שבורחת בצדדים */
+    .v3-big-text {
+        font-size: 15vw; /* גודל דינמי לפי רוחב המסך הפנוי */
+        line-height: 0.8;
+        letter-spacing: -2px;
+        word-wrap: break-word;
+    }
+
+    /* גריד רשימת התכנים (Manifest) */
+    .manifest-grid {
+        grid-template-columns: 1fr; /* טור אחד בתוך הגיליונות */
+    }
+}
+
+@media (max-width: 600px) {
+    .side-menu, .right-sidebar {
+        width: 45px; /* צמצום קל של הסרגלים כדי לתת יותר מקום לתוכן */
+    }
+    
+    .menu-item, .index-header {
+        font-size: 0.6rem;
+    }
+    
+    /* הקטנת כותרות בתוך התאים */
+    .cell-title {
+        font-size: 1.2rem;
+    }
+}
+
+/* סרגל עליון קבוע ומיושר */
+.fixed-top-bar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background: #fff;
+    z-index: 1000;
+    /* עובי דק וזהה לסרגלי הצד */
+    border-bottom: 1px solid #000; 
+    height: auto;
+}
+
+.top-bar-specs {
+    display: flex;
+    justify-content: space-between;
+    /* הריווח הזה (12px) חייב להיות זהה ל-Padding של כפתור Aspen ו-Index */
+    padding: 12px 25px; 
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* יישור גובה של כפתור ה-ASPEN והאינדקס שיהיו באותו קו */
+.menu-header, .index-header {
+    height: auto;
+    padding: 12px 0; /* יישור אנכי לסרגל האמצעי */
+    border-bottom: 1px solid #000;
+    box-sizing: border-box;
+}
+
+/* ביטול גובה קבוע שעלול לשבור את היישור */
+.side-menu, .right-sidebar {
+    display: flex;
+    flex-direction: column;
+}
+
+/* מניעת קפיצה של התוכן מתחת לסרגל הדביק */
+.home-v3-container, .manifest-grid, .index-scroll-area {
+    padding-top: 0; 
+}
+
+/* פלוסים (+) בהצטלבויות של הסרגל הקבוע */
+.fixed-top-bar::before, .fixed-top-bar::after {
+    content: '+';
+    position: absolute;
+    bottom: -11px;
+    background: #fff;
+    font-family: 'Bodoni Moda', serif;
+    font-size: 22px;
+    z-index: 1100;
+}
+.fixed-top-bar::before { left: -6px; }
+.fixed-top-bar::after { right: -6px; }
+
+/* --- עיצוב בסיס ליומן (מסכים רחבים - 7 עמודות) --- */
+.diary-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* 7 עמודות קבועות */
+    grid-auto-rows: minmax(150px, auto); /* גובה שורה גמיש! מינימום 150px */
+    width: 100%;
+    border-left: 1px solid #000; /* סוגר את הגריד משמאל */
+    border-top: 1px solid #000; /* קו עליון */
+}
+
+/* עיצוב התאים */
+.diary-cell {
+    border-right: 1px solid #000;
+    border-bottom: 1px dashed #000;
+    padding: 15px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* מפזר את התוכן (תאריך למעלה, טקסט באמצע) */
+}
+
+/* טיפול בשורה הראשונה (ימי השבוע) */
+.diary-cell:nth-child(-n+7) {
+    min-height: 45px !important; /* גובה נמוך לכותרות */
+    height: 45px;
+    border-bottom: 1px solid #000; /* קו מלא מתחת לכותרות */
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    background-color: #fff;
+}
+
+/* ביטול קו ימני לתא האחרון בשורה (במצב 7 עמודות) */
+.diary-cell:nth-child(7n) {
+    border-right: none;
+}
+
+/* הפלוסים בפינות */
+.diary-cell::after {
+    content: '+';
+    position: absolute;
+    bottom: -11px;
+    right: -6px;
+    background: #fff;
+    color: #000;
+    font-family: 'Bodoni Moda', serif;
+    font-size: 20px;
+    line-height: 1;
+    z-index: 5;
+}
+
+/* --- רספונסיביות: טאבלטים ולפטופים קטנים (מתחת ל-1200px) --- */
+@media (max-width: 1200px) {
+    .diary-grid {
+        /* עוברים ל-2 עמודות בלבד */
+        grid-template-columns: repeat(2, 1fr); 
+    }
+
+    /* הסתרת שורת הימים (Sunday, Monday...) כי זה כבר לא לוח שנה */
+    .diary-cell:nth-child(-n+7) {
+        display: none; 
+    }
+
+    /* איפוס גבולות כדי שיתאימו ל-2 עמודות */
+    .diary-cell {
+        border-right: 1px solid #000 !important; 
+    }
+
+    /* ביטול גבול ימני לכל תא זוגי (סוף שורה) */
+    .diary-cell:nth-child(even) {
+        border-right: none !important;
+    }
+    
+    /* הסתרת הפלוסים בצד ימין של סוף שורה */
+    .diary-cell:nth-child(even)::after {
+        display: none;
+    }
+}
+
+/* --- רספונסיביות: מובייל (מתחת ל-600px) --- */
+@media (max-width: 600px) {
+    .diary-grid {
+        /* עמודה אחת בלבד */
+        grid-template-columns: 1fr; 
+    }
+
+    .diary-cell {
+        border-right: none !important; /* אין קווים אנכיים במובייל */
+        min-height: auto; /* הגובה לפי התוכן */
+    }
+    
+    /* הקטנת הפונט של כתב היד במובייל שלא יחרוג */
+    .handwriting {
+        font-size: 1.4rem;
+    }
+}
+
+/* --- רספונסיביות: טאבלטים ומובייל (מתחת ל-1200px) --- */
+@media (max-width: 1200px) {
+    .diary-grid {
+        /* עוברים לטור אחד או שניים בהתאם לצורך */
+        grid-template-columns: 1fr; 
+        border-left: none; /* ביטול קו שמאלי חיצוני במובייל */
+    }
+
+    /* --- התיקון החשוב כאן: --- */
+    /* הסתרת 10 התאים הראשונים: */
+    /* 7 תאים של ימות השבוע + 3 תאים ריקים לפני ה-1 בחודש */
+    .diary-cell:nth-child(-n+9) {
+        display: none !important; 
+    }
+
+    /* איפוס גבולות לגרסת מובייל נקייה */
+    .diary-cell {
+        border-right: none !important; 
+        border-left: none !important;
+        min-height: auto; 
+    }
+    
+    /* הסתרת הפלוסים במובייל כדי שלא יצוף באוויר */
+    .diary-cell::after {
+        display: none;
+    }
+    
+    /* הקטנת הפונט של כתב היד במובייל */
+    .handwriting {
+        font-size: 1.4rem;
+    }
+}
+
+/* --- הופך תמונות מעוגלות לבעלות פינות חדות --- */
+
+/* 1. הקונטיינר - המסגרת שחותכת את השוליים */
+.image-cropper {
+    position: relative;
+    width: 100%;
+    display: block;
+    /* זה הקסם: כל מה שחורג מגבולות הדיב הזה מוסתר */
+    overflow: hidden;
+
+    /* וידוא שהקונטיינר עצמו עם פינות חדות */
+    border-radius: 0 !important;
+
+    /* אופציונלי: הגדרת יחס גובה-רוחב קבוע אם התמונות בגדלים שונים */
+    /* aspect-ratio: 1 / 1; */ /* לריבוע */
+    /* aspect-ratio: 4 / 3; */ /* למלבן */
+}
+
+/* 2. התמונה שבתוך הקונטיינר */
+.image-cropper img {
+    display: block;
+    width: 100%;
+    height: 100%;
+
+    /* מבטיח שהתמונה תמלא את כל המסגרת בלי עיוות */
+    object-fit: cover;
+
+    /*
+       הגדלה קלה של התמונה (זום-אין).
+       ערך של 1.05 אומר 105% גודל.
+       שחקי עם המספר הזה (למשל 1.08 או 1.1) אם הפינות עדיין נראות מעוגלות.
+    */
+    transform: scale(1.06);
+
+    /* מבטיח שההגדלה תתבצע מהמרכז החוצה */
+    transform-origin: center center;
+}
+
+/* --- עיגול בכתב יד --- */
+.hand-circle {
+    display: inline-block; /* כדי שהמסגרת תעטוף בדיוק את המילים */
+    position: relative;
+    
+    /* צבע העט (כחול כהה או שחור) */
+    border: 3px solid #000000; 
+    
+    /* הטריק לצורה הידנית: רדיוסים לא אחידים */
+    border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    
+    /* קצת ריווח כדי שהטקסט לא ייגע בקו */
+    padding: 2px 8px; 
+    
+    /* הטיה קלה של כל האלמנט למראה טבעי */
+    transform: rotate(-2deg); 
+    
+    /* אופציונלי: רקע שקוף למקרה הצורך */
+    background: transparent; 
+}
+
+.force-new-row {
+    grid-row: auto !important; 
+    /* מוודא שהם לא קופצים למעלה אם יש מקום פנוי */
 }
